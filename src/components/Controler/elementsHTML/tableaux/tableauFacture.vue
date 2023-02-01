@@ -331,6 +331,7 @@ export default {
       idCourant: 0,
       indexCourant: 0,
       tdCourant: null,
+      infoDistante:''
     };
   },
   mounted() {
@@ -355,6 +356,7 @@ export default {
       let i = this.indexCourant; //this.items.indexOf(this.itemEdite);
       if (i > -1) {
         this.items[i] = this.itemEdite = e.detail.reponse.extra_info;
+        //this.infoDistante = e.detail.reponse.dist_info;
       }
       this.resetSelection();
     },
@@ -418,6 +420,9 @@ export default {
             this.itemEdite = p.reduce(function (a, c) {
               if (!a.hasOwnProperty(c)) {
                 a[c] = {};
+              }
+              else if((typeof(a[c]) == 'string') || (typeof(a[c]) == 'number') || (typeof(a[c]) == 'undefined')) {
+                return a;
               }
               return a[c];
             }, item);

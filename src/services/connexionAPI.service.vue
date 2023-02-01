@@ -4,15 +4,17 @@ export default {
   name: 'connexionAPI.service',
   methods: {
     async requete(url, form) {
-      le nomsASupprimer = [];
-      if(form) {
-        Array.from(form.querySelectorAll('.nontransmis')).reduce((a,c) => {
-          a.push(c.name)
+      let nomsASupprimer = [];
+      if (form) {
+        nomsASupprimer = Array.from(
+          form.querySelectorAll('.nontransmis')
+        ).reduce((a, c) => {
+          a.push(c.name);
           return a;
-        }, nomsASupprimer);
+        }, []);
       }
       let f = form ? new FormData(form) : new FormData();
-      nomsASupprimer.forEach(n=>{
+      nomsASupprimer.forEach((n) => {
         f.delete(n);
       });
       return await fetch(url, {

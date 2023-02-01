@@ -10,7 +10,6 @@
           <select name="etat" required @change="setEtat">
             <option value="0">Choisir</option>
             <option value="0">INITIAL (0)</option>
-            <option value="TRANSMISSION_EN_COURS">TRANSMISSION EN COURS</option>
             <option value="TRANSMIS">TRANSMIS</option>
             <option value="EN_COURS_INSTRUCTION">INSTRUCTION EN COURS</option>
             <option value="ENGAGE">ENGAG&Eacute;</option>
@@ -20,12 +19,23 @@
             <option value="SOLDE">SOLD&Eacute;</option>
           </select>
         </div>
-        <div class="_inputBoxFacturier" v-if="etat == 'TRANSMISSION_EN_COURS'">
+        <div class="_inputBoxFacturier" v-if="etat == 'TRANSMIS'">
           <span class="detailFacturier"
             >En cochant cette case, vous confirmez que vous voulez transmettre
             le dossier sélectionné à l'OPCO concerné.</span
           >
-          <input name="__changeetat__" type="checkbox" required />
+          <input
+            name="changeetat"
+            type="checkbox"
+            class="nontransmis"
+            required
+          />
+          <input
+            name="__commandedistante__"
+            type="hidden"
+            value="dossier.cerfa.etat"
+            required
+          />
         </div>
       </div>
       <BoutonBase
@@ -43,6 +53,7 @@
       </div>
     </fieldset>
   </form>
+  <div class="erreur" v-if="erreur">{{ erreur }}</div>
 </template>
 
 <script>
@@ -62,6 +73,7 @@ export default {
 
   data() {
     return {
+      erreur: '',
       etat: '',
       action: construitURLService.methods.construitURLConnectionBack(
         'dossier',
@@ -71,8 +83,25 @@ export default {
   },
   mounted() {
     this.$parent.initFormulaire();
+    this.$el.parentNode.addEventListener(
+      'onEspaceSubmitSuccessB',
+      this.onSubmit.bind(this)
+    );
   },
   methods: {
+    onSubmit(e) {
+      let infoDistante = e.detail.reponse.dist_info;
+      if (infoDistante) {
+        infoDistante = infoDistante.extra_info;
+      }
+      if (infoDistante && e.detail.reponse.extra_info) {
+        let i = this.$parent.itemEdite;
+        infoDistante = infoDistante[i.opco];
+      }
+      if (infoDistante) {
+        this.erreur = infoDistante.erreur;
+      }
+    },
     setEtat(e) {
       this.etat = e.target.value;
     },
