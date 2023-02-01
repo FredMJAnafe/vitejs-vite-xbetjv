@@ -4,7 +4,17 @@ export default {
   name: 'connexionAPI.service',
   methods: {
     async requete(url, form) {
+      le nomsASupprimer = [];
+      if(form) {
+        Array.from(form.querySelectorAll('.nontransmis')).reduce((a,c) => {
+          a.push(c.name)
+          return a;
+        }, nomsASupprimer);
+      }
       let f = form ? new FormData(form) : new FormData();
+      nomsASupprimer.forEach(n=>{
+        f.delete(n);
+      });
       return await fetch(url, {
         method: 'POST',
         body: f,

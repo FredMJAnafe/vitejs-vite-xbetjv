@@ -58,7 +58,7 @@ export default {
       serveur: AJAX.ADRESSE_SERVEUR,
       urlPossibles: LIEN,
       collections: COLLECTIONS,
-      collectionsAMAJ: ['dossier'],
+      collectionsAMAJ: ['opco', 'dossier'],
       connexionAPI_OPCO: AJAX.ADRESSE_API_OPCO,
       infoOPCO: API_OPCO,
       nomBddLoc: NOM_BDDLoc,

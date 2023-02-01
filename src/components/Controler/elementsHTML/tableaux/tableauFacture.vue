@@ -493,8 +493,14 @@ export default {
       if (nomCollection != this.nomCollectionPrincipale) {
         this[nomCollection + 's'] = liste;
       } else {
+        liste = liste.filter((d) => {
+          return d.cerfa;
+        });
         liste.forEach((d) => {
           if (d.echeances) {
+            if (!Array.isArray(d.echeances)) {
+              d.echeances = Object.values(d.echeances);
+            }
             d.echeances.sort((a, b) => {
               return;
               +(a.dateOuverture > b.dateOuverture) ||
