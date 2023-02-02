@@ -93,7 +93,7 @@
         <td>
           <select>
             <option>Choisir</option>
-            <option v-for="appr in listeApprentis">{{appr}}</option>
+            <option v-for="appr in listeApprentis">{{ appr }}</option>
           </select>
         </td>
         <td>
@@ -345,12 +345,25 @@ export default {
         this.pageCourante * this.nbItemsParPage + this.nbItemsParPage
       );
     },
+    listeFormations() {
+      /*let l = this.apprentis.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      });
+      l.sort((a, b) => {
+        let _a = a.toLowerCase(),
+            _b = b.toLowerCase();
+        return +(_a > _b) || +(_a == _b) - 1;
+      });
+      return l;*/
+    },
     listeApprentis() {
       let l = this.apprentis.filter((value, index, self) => {
-                return self.indexOf(value) === index;
-              });
-      l.sort((a,b)=>{
-        return +(a>b) || (+(a==b) -1);
+        return self.indexOf(value) === index;
+      });
+      l.sort((a, b) => {
+        let _a = a.toLowerCase(),
+          _b = b.toLowerCase();
+        return +(_a > _b) || +(_a == _b) - 1;
       });
       return l;
     },
@@ -540,7 +553,7 @@ export default {
         this.items = liste;
         this.apprentis = liste.reduce((a, c) => {
           if (c.cerfa.apprenti) {
-            a.push(c.cerfa.apprenti.prenom + ' ' + c.cerfa.apprenti.nom);
+            a.push(c.cerfa.apprenti.nom + ' ' + c.cerfa.apprenti.prenom);
           }
           return a;
         }, []);
