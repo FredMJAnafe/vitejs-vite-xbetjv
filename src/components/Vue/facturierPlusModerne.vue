@@ -49,7 +49,7 @@ export default {
           montantTotal: 700,
         },
         maj: function (t) {
-          this.total.montant = t;
+          this.total.montant = t.toFixed(2) + ' €';
         },
       },
     };

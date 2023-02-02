@@ -93,6 +93,7 @@
         <td>
           <select>
             <option>Choisir</option>
+            <option v-for="appr in listeApprentis">{{appr}}</option>
           </select>
         </td>
         <td>
@@ -310,7 +311,7 @@ export default {
     MiseAJourService,
   },
   props: {
-    montantWidget:Object
+    montantWidget: Object,
   },
   data() {
     return {
@@ -344,6 +345,10 @@ export default {
         this.pageCourante * this.nbItemsParPage + this.nbItemsParPage
       );
     },
+    listeApprentis() {
+      let l = this.apprentis;//unicite !!!!!!!
+      return l;
+    }
     nbTotalPages() {
       return Math.ceil(this.items.length / this.nbItemsParPage);
     },
@@ -485,7 +490,7 @@ export default {
       }
       return ECHEANCE_ETAT_ENCOURS;
     },
-    resteAPayer(echeances) {
+    resteAPayer(echeances, nombre = false) {
       if (!echeances) {
         return 0;
       }
@@ -497,8 +502,7 @@ export default {
           a + parseFloat(c.montantTotal || 0) - parseFloat(c.montantRegle || 0)
         );
       }, 0);
-      r = r.toFixed(2);
-      return r;
+      return nombre ? r : r.toFixed(2);
     },
     formateDate(d) {
       let fd = new Date(d);
@@ -529,21 +533,17 @@ export default {
           return +(_a < _b) || +(_a == _b) - 1;
         });
         this.items = liste;
-        let apprentis = liste.reduce((a,c) => {
+        this.apprentis = liste.reduce((a, c) => {
           if (c.cerfa.apprenti) {
             a.push(c.cerfa.apprenti.prenom + ' ' + c.cerfa.apprenti.nom);
           }
           return a;
         }, []);
-        total = this.items.reduce((a,c)=>{
-          let s = 0;
-          if(c.cerfa.echeances) {
-            s = c.cerfa.echeances.reduce(e=>{
-              return parseFloat(e.montantTotal);
-            },0);
-          }
-          return a+s;          
-        },0);
+        var _this = this;
+        let total = this.items.reduce((a, c) => {
+          let s = _this.resteAPayer(c.echeances, true);
+          return a + s;
+        }, 0);
         this.montantWidget.maj(total);
       }
     },
