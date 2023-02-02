@@ -1,7 +1,7 @@
 <template>
   <section class="card">
     <div class="cardHead">
-      <h2>{{this.$props.montant.montant}}</h2>
+      <h2>{{montantTotal}}</h2>
       <font-awesome-icon class="fontIcone" icon="fa-money-bill-transfer" />
     </div>
     <div class="contenuCard">
@@ -14,8 +14,13 @@
 </template>
 
 <script>
-export default {
+export default { 
   name: "fenetreMontant",
+  computed:{
+    montantTotal() {
+      return this.montant.montant;
+      }
+  },
   props:{
     montant:Object
   }

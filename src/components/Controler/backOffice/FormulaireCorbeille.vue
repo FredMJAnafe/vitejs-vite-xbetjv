@@ -2,20 +2,14 @@
   <form :data-service="action" class="formulaireAjoutFacturier">
     <fieldset class="titreFormulaireFacturier">
       <legend>
-        Formulaire Corbeille (<a
-          target="_blank"
-          href="https://www.formulaires.service-public.fr/gf/getNotice.do?cerfaNotice=51649&cerfaFormulaire=10103"
-          style="font-weight: bold"
-          >Aide</a
-        >)
+        Suppression de dossier
       </legend>
       <input type="hidden" name="__base__" value="" />
       <input type="hidden" name="__id__" value="0" />
       <div class="detailApprenti">
         <div class="_inputBoxFacturier">
           <span class="detailFacturier"
-            >Êtes-vous certain de vouloir mettre ce dossier dans la corbeille
-            ?</span
+            >Cliquez ici pour confirmer la mise à la corbeille de ce dossier : </span
           >
           <input type="checkbox" name="corbeille" />
         </div>

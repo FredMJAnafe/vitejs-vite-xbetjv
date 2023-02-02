@@ -61,7 +61,7 @@
     <thead id="theadTableauFacturier">
       <tr>
         <th>Actions</th>
-        <th>N°</th>
+        <th class="numero">N°</th>
         <th>Apprenti</th>
         <th>Formation</th>
         <th>Employeur</th>
@@ -78,7 +78,7 @@
     <tbody id="tbodyfiltresFacturier">
       <tr>
         <td></td>
-        <td id="premiereCaseTableauRecherche">
+        <td class="numero" id="premiereCaseTableauRecherche">
           <form id="formcreadossier">
             <input type="hidden" name="cdate" value="" />
             <input type="hidden" name="cerfa.etat" value="0" />
@@ -142,8 +142,8 @@
         v-for="(item, index) in itemsAffiches"
         :data-num="index + nbItemsParPage * pageCourante"
       >
-        <td class="editable" style="text-align: center">
-          <span data-prop="corbeille">
+        <td class="editable" style="text-align: center" data-prop="corbeille">
+          <span>
             <font-awesome-icon
               class="fontIcone"
               icon="fa-solid fa-trash"
@@ -151,7 +151,7 @@
             />
           </span>
         </td>
-        <td>
+        <td class="numero">
           {{
             item.cerfa.numeroExterne || item.cerfa.numeroInterne || 'NOUVEAU'
           }}
@@ -309,6 +309,9 @@ export default {
     elementContratTableauFacturier,
     MiseAJourService,
   },
+  props: {
+    montantWidget:Object
+  },
   data() {
     return {
       typeBtnAfficherFormulaire: 'ouvrirformulaire',
@@ -346,16 +349,16 @@ export default {
     },
   },
   methods: {
-    desactive(index) {
-      //item.inactive = true;
-      this.resetSelection();
-    },
     onMAJOK(e) {
       let i = this.indexCourant; //this.items.indexOf(this.itemEdite);
       if (i > -1) {
         let it = e.detail.reponse.extra_info;
         if (it.cerfa) {
           this.items[i] = it;
+          if (it.corbeille) {
+            this.resetSelection();
+            this.items.splice(i, 1);
+          }
         } else {
         }
         //this.infoDistante = e.detail.reponse.dist_info;
@@ -526,12 +529,22 @@ export default {
           return +(_a < _b) || +(_a == _b) - 1;
         });
         this.items = liste;
-        let apprentis = liste.reduce((a, c) => {
+        let apprentis = liste.reduce((a,c) => {
           if (c.cerfa.apprenti) {
             a.push(c.cerfa.apprenti.prenom + ' ' + c.cerfa.apprenti.nom);
           }
           return a;
         }, []);
+        total = this.items.reduce((a,c)=>{
+          let s = 0;
+          if(c.cerfa.echeances) {
+            s = c.cerfa.echeances.reduce(e=>{
+              return parseFloat(e.montantTotal);
+            },0);
+          }
+          return a+s;          
+        },0);
+        this.montantWidget.maj(total);
       }
     },
     changeEtatFormulaire(etat, change2 = false) {
@@ -634,66 +647,10 @@ export default {
   border-radius: 0 0 6px 0;
 }
 
-#titreTableauFacturerNonSolde :nth-child(2) {
-  background: var(--color-dark);
-  width: 18%;
-  min-width: 150px;
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(3) {
-  width: 5%;
-  min-width: 60px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-#titreTableauFacturerNonSolde :nth-child(4) {
-  width: 18%;
-  min-width: 100px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(5) {
-  width: 6%;
-  min-width: 60px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(6) {
-  width: 8%;
-  min-width: 70px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(7) {
-  width: 8%;
-  min-width: 70px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(8) {
-  width: 8%;
-  min-width: 98px;
-  background: var(--color-dark);
-  margin-right: 1px;
-  border-radius: 6px 0 6px 0;
-}
-
-#titreTableauFacturerNonSolde :nth-child(9) {
-  width: 25%;
-  min-width: 150px;
-  background: var(--color-dark);
-  border-radius: 6px 0 0 0;
+#tablefacturier th.numero,
+#tablefacturier td.numero {
+  max-width: 110px;
+  width: 110px;
 }
 
 #titreTableauDerniereCase {
@@ -772,7 +729,7 @@ select {
 }
 
 .boutonCreationDossier {
-  margin: 0.5rem 1rem 0.5rem 1rem;
+  margin: 3px;
   padding: 0.3rem;
   text-align: center;
   border-style: dashed;

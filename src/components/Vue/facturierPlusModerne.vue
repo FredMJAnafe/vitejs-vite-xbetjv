@@ -1,76 +1,81 @@
 <template>
-  <nav-bar-facturier v-bind:utilisateur="utilisateur" ></nav-bar-facturier>
+  <nav-bar-facturier v-bind:utilisateur="utilisateur"></nav-bar-facturier>
   <section class="affichagePrincipal">
     <header>
       <bandeau-haut-facturier></bandeau-haut-facturier>
     </header>
     <main>
       <corps-facturier v-bind:montantWidget="widget"></corps-facturier>
-
     </main>
   </section>
 </template>
 
 <script>
-import photoProfilDefaut from "@/assets/vue.svg";
-import NavBarFacturier from "@/components/Controler/backOffice/navBarFacturier.vue";
-import bandeauHautFacturier from "@/components/Controler/backOffice/bandeauHautFacturier.vue";
-import corpsFacturier from "@/components/Controler/backOffice/corpsFacturier.vue";
+import photoProfilDefaut from '@/assets/vue.svg';
+import NavBarFacturier from '@/components/Controler/backOffice/navBarFacturier.vue';
+import bandeauHautFacturier from '@/components/Controler/backOffice/bandeauHautFacturier.vue';
+import corpsFacturier from '@/components/Controler/backOffice/corpsFacturier.vue';
 
 export default {
-  name: "facturierPlusModerne",
+  name: 'facturierPlusModerne',
   components: {
     NavBarFacturier,
     bandeauHautFacturier,
-    corpsFacturier
+    corpsFacturier,
   },
-  data(){
-    return{
-      utilisateur:{
-        photoProfil:'',
-        nomUtilisateur:''
+  data() {
+    return {
+      utilisateur: {
+        photoProfil: '',
+        nomUtilisateur: '',
       },
-      widget:{
+      widget: {
         //A creer les données quand on aura les data de la BDD
-        total:{
-          intitule:'total',
-          montant:700,
-          montantTotal:25000
+        total: {
+          intitule: 'total',
+          montant: 700,
+          montantTotal: 25000,
         },
-        nMoins1:{
-          intitule:'2021-2022',
-          montant:250,
+        nMoins1: {
+          intitule: '2021-2022',
+          montant: 250,
           //montantTotal:this.data().widget.total.montant
-          montantTotal:700
+          montantTotal: 700,
         },
-        n:{
-          intitule:'2022-2023',
-          montant:450,
+        n: {
+          intitule: '2022-2023',
+          montant: 450,
           //montantTotal:this.data().widget.total.montant
-          montantTotal:700
-        }
-      }
-    }
+          montantTotal: 700,
+        },
+        maj: function (t) {
+          this.total.montant = t;
+        },
+      },
+    };
   },
-  beforeMount(){
-    if(localStorage.getItem("avatar")===""){
-      this.utilisateur.photoProfil=photoProfilDefaut;
-    }else{
-      this.utilisateur.photoProfil=localStorage.getItem("avatar");
+  beforeMount() {
+    if (localStorage.getItem('avatar') === '') {
+      this.utilisateur.photoProfil = photoProfilDefaut;
+    } else {
+      this.utilisateur.photoProfil = localStorage.getItem('avatar');
     }
 
-    if (localStorage.getItem("nom")!=="" && localStorage.getItem("prenom") !==""){
-      this.utilisateur.nomUtilisateur=localStorage.getItem("prenom")+" "+localStorage.getItem("nom");
-    }else{
-      this.utilisateur.nomUtilisateur=localStorage.getItem("mail");
+    if (
+      localStorage.getItem('nom') !== '' &&
+      localStorage.getItem('prenom') !== ''
+    ) {
+      this.utilisateur.nomUtilisateur =
+        localStorage.getItem('prenom') + ' ' + localStorage.getItem('nom');
+    } else {
+      this.utilisateur.nomUtilisateur = localStorage.getItem('mail');
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-
-main{
+main {
   margin-left: 165px;
   width: calc(100%- 165px);
   margin-top: 2em;
@@ -79,7 +84,7 @@ main{
   flex-direction: column;
 }
 
-.affichagePrincipal{
+.affichagePrincipal {
   /*
   Ici se trouve la gestion de l'affichage de la fenetre principale à droite du facturier
    */
@@ -87,7 +92,4 @@ main{
   position: fixed;
   width: 100%;
 }
-
-
-
 </style>

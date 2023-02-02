@@ -1,32 +1,39 @@
 <template>
   <div class="analyse">
-    <fenetre-montant class="fenetreMontant" v-bind:montant="this.montantWidget.total" ></fenetre-montant>
-    <fenetre-montant class="fenetreMontant" v-bind:montant="this.montantWidget.nMoins1" ></fenetre-montant>
-    <fenetre-montant class="fenetreMontant" v-bind:montant="this.montantWidget.n" ></fenetre-montant>
+    <fenetre-montant
+      class="fenetreMontant"
+      v-bind:montant="this.montantWidget.total"
+    ></fenetre-montant>
+    <fenetre-montant
+      class="fenetreMontant hidden"
+      v-bind:montant="this.montantWidget.nMoins1"
+    ></fenetre-montant>
+    <fenetre-montant
+      class="fenetreMontant hidden"
+      v-bind:montant="this.montantWidget.n"
+    ></fenetre-montant>
   </div>
-  <tableau-facture></tableau-facture>
-
+  <tableau-facture :montantWidget="montantWidget"></tableau-facture>
 </template>
 
 <script>
-import fenetreMontant from "@/components/Controler/elementsHTML/widget/fenetreMontant.vue";
-import tableauFacture from "@/components/Controler/elementsHTML/tableaux/tableauFacture.vue";
+import fenetreMontant from '@/components/Controler/elementsHTML/widget/fenetreMontant.vue';
+import tableauFacture from '@/components/Controler/elementsHTML/tableaux/tableauFacture.vue';
 
 export default {
-  name: "corpsFacturier",
-  components:{
+  name: 'corpsFacturier',
+  components: {
     fenetreMontant,
-    tableauFacture
+    tableauFacture,
   },
-  props:{
-    montantWidget:Object
-  }
-}
+  props: {
+    montantWidget: Object,
+  },
+};
 </script>
 
 <style scoped>
-
-.analyse{
+.analyse {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
@@ -34,8 +41,10 @@ export default {
   padding: 0.6rem 1rem;
 }
 
-.fenetreMontant{
+.fenetreMontant {
   box-shadow: 0px 5px 5px -5px;
 }
-
+.hidden {
+  display: none !important;
+}
 </style>
