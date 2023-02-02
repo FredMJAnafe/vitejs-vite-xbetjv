@@ -346,9 +346,14 @@ export default {
       );
     },
     listeApprentis() {
-      let l = this.apprentis;//unicite !!!!!!!
+      let l = this.apprentis.filter((value, index, self) => {
+                return self.indexOf(value) === index;
+              });
+      l.sort((a,b)=>{
+        return +(a>b) || (+(a==b) -1);
+      });
       return l;
-    }
+    },
     nbTotalPages() {
       return Math.ceil(this.items.length / this.nbItemsParPage);
     },
