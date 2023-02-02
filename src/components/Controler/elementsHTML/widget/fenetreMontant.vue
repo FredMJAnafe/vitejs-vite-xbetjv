@@ -19,7 +19,7 @@ export default {
   computed:{
     montantTotal() {
       return this.montant.montant;
-      }
+    }
   },
   props:{
     montant:Object
