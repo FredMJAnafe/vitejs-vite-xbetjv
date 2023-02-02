@@ -9,7 +9,7 @@
           >Aide</a
         >)
       </legend>
-      <input type="hidden" name="__base__" value="visibiliteDossier" />
+      <input type="hidden" name="__base__" value="" />
       <input type="hidden" name="__id__" value="0" />
       <div class="detailApprenti">
         <div class="_inputBoxFacturier">
@@ -17,7 +17,7 @@
             >Êtes-vous certain de vouloir mettre ce dossier dans la corbeille
             ?</span
           >
-          <input type="checkbox" name="corbeille" required />
+          <input type="checkbox" name="corbeille" />
         </div>
       </div>
       <BoutonBase

@@ -44,7 +44,7 @@
     </FormulaireFormation>
 
     <FormulaireCorbeille
-      v-if="etatFormulaire == 'visibiliteDossier'"
+      v-if="etatFormulaire == 'corbeille'"
       v-on:remetEtatInitial="this.remetEtatInitial"
       id="formCorbeille"
     >
@@ -142,14 +142,8 @@
         v-for="(item, index) in itemsAffiches"
         :data-num="index + nbItemsParPage * pageCourante"
       >
-        <td style="text-align: center">
-          <span class="editable"
-            ><font-awesome-icon
-              icon="fa-solid fa-paper-plane"
-              @click="transmettreOPCO"
-            />
-          </span>
-          <span class="editable" data-prop="visibiliteDossier">
+        <td class="editable" style="text-align: center">
+          <span data-prop="corbeille">
             <font-awesome-icon
               class="fontIcone"
               icon="fa-solid fa-trash"
@@ -331,7 +325,7 @@ export default {
       idCourant: 0,
       indexCourant: 0,
       tdCourant: null,
-      infoDistante:''
+      infoDistante: '',
     };
   },
   mounted() {
@@ -352,15 +346,17 @@ export default {
     },
   },
   methods: {
+    desactive(index) {
+      //item.inactive = true;
+      this.resetSelection();
+    },
     onMAJOK(e) {
       let i = this.indexCourant; //this.items.indexOf(this.itemEdite);
       if (i > -1) {
         let it = e.detail.reponse.extra_info;
-        if(it.cerfa) {
+        if (it.cerfa) {
           this.items[i] = it;
-        }
-        else {
-         
+        } else {
         }
         //this.infoDistante = e.detail.reponse.dist_info;
       }
@@ -426,8 +422,11 @@ export default {
             this.itemEdite = p.reduce(function (a, c) {
               if (!a.hasOwnProperty(c)) {
                 a[c] = {};
-              }
-              else if((typeof(a[c]) == 'string') || (typeof(a[c]) == 'number') || (typeof(a[c]) == 'undefined')) {
+              } else if (
+                typeof a[c] == 'string' ||
+                typeof a[c] == 'number' ||
+                typeof a[c] == 'undefined'
+              ) {
                 return a;
               }
               return a[c];
@@ -442,8 +441,8 @@ export default {
             }
             this.tdCourant = t;
             this.tdCourant.classList.add('selected');
-            if
-            this.changeEtatFormulaire(prop,true);
+
+            this.changeEtatFormulaire(prop, true);
           }
         }
       }
@@ -507,7 +506,7 @@ export default {
         this[nomCollection + 's'] = liste;
       } else {
         liste = liste.filter((d) => {
-          return d.cerfa;
+          return d.cerfa && !d.corbeille;
         });
         liste.forEach((d) => {
           if (d.echeances) {
@@ -538,8 +537,11 @@ export default {
     changeEtatFormulaire(etat, change2 = false) {
       if (this.etatFormulaire == etat) {
         this.etatFormulaire = '';
-        if(change2) {
-          this.etatFormulaire = etat;
+        if (change2) {
+          var _this = this;
+          setTimeout(() => {
+            _this.etatFormulaire = etat;
+          }, 100);
         }
       } else {
         this.etatFormulaire = etat;
