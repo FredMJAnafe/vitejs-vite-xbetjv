@@ -355,7 +355,13 @@ export default {
     onMAJOK(e) {
       let i = this.indexCourant; //this.items.indexOf(this.itemEdite);
       if (i > -1) {
-        this.items[i] = this.itemEdite = e.detail.reponse.extra_info;
+        let it = e.detail.reponse.extra_info;
+        if(it.cerfa) {
+          this.items[i] = it;
+        }
+        else {
+         
+        }
         //this.infoDistante = e.detail.reponse.dist_info;
       }
       this.resetSelection();
@@ -436,12 +442,14 @@ export default {
             }
             this.tdCourant = t;
             this.tdCourant.classList.add('selected');
-            this.changeEtatFormulaire(prop);
+            if
+            this.changeEtatFormulaire(prop,true);
           }
         }
       }
     },
     changePage(next = true) {
+      this.resetSelection();
       this.pageCourante += next ? 1 : -1;
     },
     creerDossier(e) {
@@ -527,9 +535,12 @@ export default {
         }, []);
       }
     },
-    changeEtatFormulaire(etat) {
+    changeEtatFormulaire(etat, change2 = false) {
       if (this.etatFormulaire == etat) {
         this.etatFormulaire = '';
+        if(change2) {
+          this.etatFormulaire = etat;
+        }
       } else {
         this.etatFormulaire = etat;
       }

@@ -53,7 +53,7 @@
       </div>
     </fieldset>
   </form>
-  <div class="erreur" v-if="erreur">{{ erreur }}</div>
+  <div class="erreur" v-if="!!erreur">Retour OPCO : {{ erreur }}</div>
 </template>
 
 <script>
@@ -95,11 +95,14 @@ export default {
         infoDistante = infoDistante.extra_info;
       }
       if (infoDistante && e.detail.reponse.extra_info) {
-        let i = this.$parent.itemEdite;
+        let i = this.$parent.items[this.$parent.indexCourant];
         infoDistante = infoDistante[i.opco];
       }
       if (infoDistante) {
         this.erreur = infoDistante.erreur;
+        if(this.erreur) {
+          e.stopImmediatePropagation();
+        }
       }
     },
     setEtat(e) {
@@ -122,6 +125,13 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+}
+.erreur {
+  margin:5px;
+  padding:3px;
+  display:block;
+  background:red;
+  color:white;
 }
 
 /*section{
