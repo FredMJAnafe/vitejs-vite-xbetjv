@@ -5,7 +5,8 @@ var eventListenerOK = false,
   SORT_FUNCTIONS = {};
 
 var onTableAction = function (e) {
-  var t = e.target, _this = this;
+  var t = e.target,
+    _this = this;
   treatments.forEach(function (treatment) {
     var thcell, thline, tbody, rows;
     switch (treatment) {
@@ -54,7 +55,7 @@ var onTableAction = function (e) {
         }
         break;
       default:
-        //TO DO : pour traitments externes.
+      //TO DO : pour traitments externes.
     }
   });
 };
@@ -140,7 +141,8 @@ var changefiltercolselect = function (selElt, rows) {
     if (isMultiple) {
       cond = !td || td.querySelector('.multipleelt.status-' + v);
     } else {
-      cond = !td || td.innerHTML == v;
+      let innerText = td.innerText;
+      cond = !td || innerText == v;
     }
     cond = v === '' || cond;
     r.classList.toggle('hidden-' + indexCol, !cond);
@@ -181,9 +183,7 @@ export default class TableUtils {
   constructor() {
     addTableUtilsEventListener(this);
   }
-  static getInstance() {
-    //...
-  },
+
   addTreatment(treatment) {
     //TO DO : externes .... ?
     if (treatments.indexOf(treatment) === -1) {
@@ -337,7 +337,7 @@ export default class TableUtils {
       selElt = document.getElementById(selEltId);
       if (selElt) {
         selElt.value = this.currentFilters[selEltId];
-        onTableAction.call(this,{ target: selElt, type: 'change' });
+        onTableAction.call(this, { target: selElt, type: 'change' });
         //changefiltercolselect(selElt, o.rows );
       }
     }

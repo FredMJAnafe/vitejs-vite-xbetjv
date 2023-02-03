@@ -811,4 +811,8 @@ form.formulaireAjoutFacturier {
   border: dashed #ffaece 7px;
   border-radius: 20px;
 }
+.hidden {
+  display: none !important;
+  opacity: 0 !important;
+}
 </style>
