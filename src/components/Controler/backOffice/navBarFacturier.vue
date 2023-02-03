@@ -11,10 +11,15 @@
     </div>
     <div class="side-content">
       <div class="profil">
-        <div class="photoProfil">
-          <img :src="this.utilisateur.photoProfil" />
+        <div class="photoProfil">          
+          <img v-if="this.utilisateur.photoProfil" :src="this.utilisateur.photoProfil" />
+          <font-awesome-icon v-else
+            class="fontIcone"
+            icon="fa-user-edit"
+          />
         </div>
-        <h4>{{ this.utilisateur.nomUtilisateur }}</h4>
+        <h4>{{ this.utilisateur.nom }}</h4>
+        <span> {{ this.utilisateur.prenom }} </span>
       </div>
     </div>
     <div class="side-menu hidden">
@@ -136,7 +141,7 @@
     </div>
   </section>
 </template>
-
+ 
 <script>
 //import logoEntreprise from '#/logo0_small.png'
 import App from '@/App.vue';
@@ -187,9 +192,10 @@ div.side-header {
 div.profil {
   text-align: center;
   padding: 1rem 0rem;
+  color:white;
 }
 
-div.photoProfil {
+.photoProfil {
   height: 90px;
   width: 90px;
   display: inline-block;
@@ -197,8 +203,11 @@ div.photoProfil {
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 50%;
+  color:white;
 }
-
+.photoProfil .fontIcone {
+  height:80px;
+}
 div.profil h4 {
   color: white;
   font-weight: 300;

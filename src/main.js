@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 
 import router from './routeur';
 
@@ -22,6 +23,7 @@ library.add(faFileCircleMinus);
 library.add(faPersonCirclePlus);
 library.add(faTrash);
 library.add(faPaperPlane);
+library.add(faUserEdit);
 
 createApp(App)
   .component('font-awesome-icon', FontAwesomeIcon)

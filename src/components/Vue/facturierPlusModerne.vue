@@ -9,7 +9,7 @@
     </main>
   </section>
 </template>
-
+ 
 <script>
 import photoProfilDefaut from '@/assets/vue.svg';
 import NavBarFacturier from '@/components/Controler/backOffice/navBarFacturier.vue';
@@ -56,7 +56,7 @@ export default {
   },
   beforeMount() {
     if (localStorage.getItem('avatar') === '') {
-      this.utilisateur.photoProfil = photoProfilDefaut;
+      //this.utilisateur.photoProfil = photoProfilDefaut;
     } else {
       this.utilisateur.photoProfil = localStorage.getItem('avatar');
     }
@@ -65,8 +65,10 @@ export default {
       localStorage.getItem('nom') !== '' &&
       localStorage.getItem('prenom') !== ''
     ) {
-      this.utilisateur.nomUtilisateur =
-        localStorage.getItem('prenom') + ' ' + localStorage.getItem('nom');
+      this.utilisateur.nom =
+        localStorage.getItem('nom').toUpperCase();
+      this.utilisateur.prenom =
+        localStorage.getItem('prenom');
     } else {
       this.utilisateur.nomUtilisateur = localStorage.getItem('mail');
     }

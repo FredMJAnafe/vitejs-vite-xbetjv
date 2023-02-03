@@ -82,8 +82,7 @@
         <th>OPCO</th>
         <th>Reste</th>
         <th>Factures</th>
-        <th>Etape</th>
-        <th></th>
+        <th>&Eacute;tat</th>
       </tr>
     </thead>
 
@@ -186,7 +185,6 @@
             >{{ resteAPayer(echeance) }}</span
           >
         </td>
-        <td></td>
         <td class="editable" data-prop="cerfa.etat">
           <span v-if="item.cerfa.etat">
             <span v-if="item.cerfa.etat == 0">Initial</span>
@@ -291,7 +289,7 @@ export default {
   },
   updated() {
     let tu = new TableUtils();
-    tu.filterTable('tablefacturier', [1, 2, 10, 11, 13]);
+    tu.filterTable('tablefacturier', [1, 2, 10,11]);
   },
   computed: {
     itemsAffiches() {
@@ -744,7 +742,11 @@ select {
 #lignesDuFacturier tr:nth-child(odd) {
   background: white;
 }
-#lignesDuFacturier tr td:nth-child(3) {
+#tablefacturier tr > *:nth-child(3),
+#tablefacturier tr > *:nth-child(4),
+#tablefacturier tr > *:nth-child(5),
+#tablefacturier tr > *:nth-child(6),
+#tablefacturier tr > *:nth-child(7) {
   max-width: 150px;
 }
 .detailApprenti select {
