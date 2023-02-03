@@ -744,6 +744,9 @@ select {
 #lignesDuFacturier tr:nth-child(odd) {
   background: white;
 }
+#lignesDuFacturier tr td:nth-child(3) {
+  max-width: 150px;
+}
 .detailApprenti select {
   width: 50%;
 }
