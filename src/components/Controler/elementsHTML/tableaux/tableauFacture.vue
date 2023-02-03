@@ -61,7 +61,18 @@
     <thead id="theadTableauFacturier">
       <tr>
         <th>Actions</th>
-        <th class="numero">N°</th>
+        <th class="numero">
+          <form id="formcreadossier">
+            <input type="hidden" name="cdate" value="" />
+            <input type="hidden" name="cerfa.etat" value="0" />
+            <div class="boutonCreationDossier" @click="creerDossier">
+              <span class="iconeAjout"
+                ><font-awesome-icon icon="fa-person-circle-plus"
+              /></span>
+              <span>Nouveau dossier</span>
+            </div>
+          </form>
+        </th>
         <th>Apprenti</th>
         <th>Formation</th>
         <th>Employeur</th>
@@ -75,68 +86,6 @@
         <th></th>
       </tr>
     </thead>
-    <tbody id="tbodyfiltresFacturier">
-      <tr>
-        <td></td>
-        <td class="numero" id="premiereCaseTableauRecherche">
-          <form id="formcreadossier">
-            <input type="hidden" name="cdate" value="" />
-            <input type="hidden" name="cerfa.etat" value="0" />
-            <div class="boutonCreationDossier" @click="creerDossier">
-              <span class="iconeAjout"
-                ><font-awesome-icon icon="fa-person-circle-plus"
-              /></span>
-              <span>Nouveau dossier</span>
-            </div>
-          </form>
-        </td>
-        <td>
-          <select>
-            <option>Choisir</option>
-            <option v-for="appr in listeApprentis">{{ appr }}</option>
-          </select>
-        </td>
-        <td>
-          <select>
-            <option>Choisir</option>
-            <option>CI</option>
-            <option>CDUI</option>
-            <option>COM</option>
-            <option>GPME</option>
-            <option>MCO</option>
-            <option>MMV</option>
-            <option>NDRC</option>
-            <option>SAM</option>
-          </select>
-        </td>
-        <td>
-          <select>
-            <option>Choisir</option>
-          </select>
-
-          <!--bouton-base @click="formMaitre = true" class="BoutonBaseRecherche" id="BoutonBaseRechercheMaitre" :intituleBouton="this.$data.nomBoutonMaitre" v-on:click="this.ajouterUnMaitre"></bouton-base-->
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <select>
-            <option value="0">Choisir</option>
-            <option v-for="objet in opcos" :value="objet._id.$oid">
-              {{ objet.nom }}
-            </option>
-          </select>
-        </td>
-        <td></td>
-        <td></td>
-        <td>
-          <select>
-            <option>en cours</option>
-          </select>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
 
     <tbody id="lignesDuFacturier">
       <tr
@@ -289,6 +238,8 @@ import construitURLService from '@/services/construitURL.service.vue';
 import configuration from '@/administration/configuration.vue';
 import connexionAPIService from '@/services/connexionAPI.service.vue';
 
+import TableUtils from '@/components/Model/TableUtils.js';
+
 const ECHEANCE_ETAT_INIT = 'initial';
 const ECHEANCE_ETAT_REGLE = 'regle';
 const ECHEANCE_ETAT_RETARD = 'retard';
@@ -335,8 +286,12 @@ export default {
   mounted() {
     this.$el.parentNode.addEventListener(
       'onEspaceSubmitSuccessB',
-      this.onMAJOK.bind(this)
+      this.onFormulaireOK.bind(this)
     );
+  },
+  updated() {
+    let tu = new TableUtils();
+    tu.filterTable('tablefacturier', [1, 2, 10, 11, 13]);
   },
   computed: {
     itemsAffiches() {
@@ -356,7 +311,7 @@ export default {
       });
       return l;*/
     },
-    listeApprentis() {
+    /*listeApprentis() {
       let l = this.apprentis.filter((value, index, self) => {
         return self.indexOf(value) === index;
       });
@@ -366,13 +321,13 @@ export default {
         return +(_a > _b) || +(_a == _b) - 1;
       });
       return l;
-    },
+    },*/
     nbTotalPages() {
       return Math.ceil(this.items.length / this.nbItemsParPage);
     },
   },
   methods: {
-    onMAJOK(e) {
+    onFormulaireOK(e) {
       let i = this.indexCourant; //this.items.indexOf(this.itemEdite);
       if (i > -1) {
         let it = e.detail.reponse.extra_info;
@@ -551,12 +506,12 @@ export default {
           return +(_a < _b) || +(_a == _b) - 1;
         });
         this.items = liste;
-        this.apprentis = liste.reduce((a, c) => {
+        /*this.apprentis = liste.reduce((a, c) => {
           if (c.cerfa.apprenti) {
             a.push(c.cerfa.apprenti.nom + ' ' + c.cerfa.apprenti.prenom);
           }
           return a;
-        }, []);
+        }, []);*/
         var _this = this;
         let total = this.items.reduce((a, c) => {
           let s = _this.resteAPayer(c.echeances, true);
@@ -665,6 +620,13 @@ export default {
   border-radius: 0 0 6px 0;
 }
 
+#tablefacturier thead {
+  background: #c0c9d8;
+}
+#tablefacturier th {
+  vertical-align: middle;
+  text-align: center;
+}
 #tablefacturier th.numero,
 #tablefacturier td.numero {
   max-width: 110px;
@@ -679,14 +641,6 @@ export default {
   height: 28px;
 }
 
-/* Valeur height a changer dynamiquement pour englober les formulaires*/
-#tbodyfiltresFacturier {
-  background: var(--mauve-clair);
-  height: 4rem;
-  box-shadow: 0px 5px 5px -4px;
-  transition-property: height;
-  transition-duration: 1s;
-}
 #tbodyfiltresFacturier tr {
   background: #c0c9d8;
 }
