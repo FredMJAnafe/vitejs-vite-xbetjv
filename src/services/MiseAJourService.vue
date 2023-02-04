@@ -64,8 +64,10 @@ export default {
           for (let info of infos) {
             let ainfo = [],
               sinfo;
-
-            if (info.erreur) {
+            if(!info) {
+              ainfo.push('null');
+            }
+            elseif (info.erreur) {
               ainfo.push(info.erreur);
             } else {
               if (info.nbinsertions != 0) {
